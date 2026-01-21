@@ -8,11 +8,11 @@ let titleSpan = document.getElementById("titleError");
 let contentSpan = document.getElementById("contentError");
 let submitSpan = document.getElementById("submitError");
 let newPost = document.getElementById("postDiv");
-
+// declare array to store posts in
 let postArchive = [];
 
 // function to store the blog posts in local storage
-function store(postArchive) {
+function store() {
     localStorage.setItem('postArchive',JSON.stringify(postArchive));
 };
 
@@ -20,7 +20,7 @@ function store(postArchive) {
 function renderArchive() {
     archiveDisplay.innerHTML = "";
     for (let i = 0; i < postArchive.length; i++) {
-//create HTML structure
+// create HTML structure
         let wholePostDiv = document.createElement("div");
         let titleHeader = document.createElement("h2");
         let postText = document.createElement("content");
@@ -39,86 +39,58 @@ function renderArchive() {
         postText.innerText = postArchive[i].content;
         editButton.innerText = "Edit";
         deleteButton.innerText = "Delete";
-// delete button listener
+// give div identity
+        wholePostDiv.dataset.identity = i;
+// listener on delete button
         deleteButton.addEventListener("click", function(e) {
             const targetedPost = e.target.closest("div");
+            const targetedIndex = targetedPost.dataset.identity;
             console.log(targetedPost);
-            postArchive.splice(wholePostDiv.dataset.identity,1);
+// remove value from array
+            postArchive.splice(targetedIndex,1);
+// re-render archived posts from edited array
             renderArchive();
         });
-        wholePostDiv.dataset.identity = i;
-    }
+// listener on edit button
+        editButton.addEventListener("click",function(e) {
+            const targetedPost = e.target.closest("div");
+            const targetedIndex = targetedPost.dataset.identity;
+// bring values to be edited to input fields
+            titleInput.value = postArchive[targetedIndex].title;
+            contentInput.value = postArchive[targetedIndex].content;
+// remove old value from array
+            postArchive.splice(targetedIndex,1);
+//remove old value from HTML
+            targetedPost.remove();
+// changes to array and page are handled with submit button           
+        });
+};
 };
 
+//listener on submit button
 submitButton.addEventListener("click", function(e){
-   let blogPost = {
-    title: titleInput.value,
-    // date: 
-    content: contentInput.value,
-    tags: [],
-};
-  if (blogPost.title === "" || blogPost.content === "") {
-    alert("Please enter both values.");
-    return;
-  }
-  postArchive.push(blogPost); // Add item to arr array
-  renderArchive();
-  titleInput.value = ""; // Clear the input field
-  contentInput.value = "";
+// add inputs to object
+    let blogPost = {
+        title: titleInput.value,
+        // date: 
+        content: contentInput.value,
+        tags: [],
+    };
+// check if fields are empty--add more validation here!
+    if (titleInput.value === "" || contentInput.value === "") {
+        alert("Please enter both values.");
+        return;
+    };
+// add object to array
+    postArchive.push(blogPost);
+// render the array on screen
+    renderArchive();
+// clear input fields
+    titleInput.value = "";
+    contentInput.value = "";
+// store();
 });
 
-
-
-
-// editButton.addEventListener("click",function(e) {
-
-// })
-
-
-// function checkBlank () {
-//     let archive = JSON.parse(localStorage.getItem('array')) || [];
-//     if (archive = []) {
-        
-//     }
-// }
-
-
-
-// if (user == null || user == "") {
-//     usernameInput.value = "";
-//     usernameSpan.textContent = "";
-// } else {
-//     usernameInput.value = user;
-//     usernameSpan.textContent = ("Welcome back, " + user);
-// };
-
-// function renderCart() {
-//   cart.innerHTML = ""; // Clear existing list
-//   totalPrice = 0; //clear exising price
-// // render cart and fill with arr array
-//   for (let i = 0; i < arr.length; i++) {
-//     let listItem = document.createElement("li");
-//     listItem.innerText = arr[i].product + "   $" + arr[i].price+ "    ";
-// // attach price as metadata of html element
-//     listItem.dataset.price = Number(arr[i].price);
-// // attach arr index as metadata of html element
-//     listItem.dataset.identity = i;
-// // add delete button at end of li
-//     const deleteButton = document.createElement("button");
-//         deleteButton.innerText = "x";
-//         listItem.appendChild(deleteButton);
-// //append li to cart ul in html
-//     cart.appendChild(listItem);
-//     updateTotalPrice(Number(arr[i].price));
-// //event listener for delete button to remove selected element from arr array and re-render cart
-//     deleteButton.addEventListener("click", function(e) {
-//       const item = e.target.closest('li');
-//       const price = parseFloat(item.dataset.price);
-//       updateTotalPrice(-price);
-//       arr.splice(item.dataset.identity,1);
-//       renderCart();
-//   });
-// }};
 
 // const utcDate = Date.parse(new Date());
 // const dateOffsetMS = ((new Date().getTimezoneOffset()) * 60000);
