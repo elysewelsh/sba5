@@ -9,14 +9,20 @@
 </head>
 <body>
     <form id="postForm" novalidate>
+        <div>
         <label for="postTitle">Post Title:</label>
         <input id="postTitle" required></input>
         <span id="titleError"></span>
+        </div>
+        <div>
         <label for="postContent">Your Thoughts:</label>
         <textarea id="postContent" required></textarea>
         <span id="contentError"></span>
+        </div>
+        <div>
         <button id="submitButton">Submit</button>
         <span id="submitError"></span>
+        </div>
     </form>
     <section id="archiveDisplay">
 

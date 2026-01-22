@@ -8,10 +8,11 @@ let titleSpan = document.getElementById("titleError");
 let contentSpan = document.getElementById("contentError");
 let submitSpan = document.getElementById("submitError");
 let newPost = document.getElementById("postForm");
-// declare array to store posts in
+// counters and formatted variables
 let contentErrorCount = 0;
 let titleErrorCount = 0;
 
+// on page load
 renderArchive(postArchive);
 
 // function to store the blog posts in local storage
@@ -26,6 +27,7 @@ function renderArchive(array) {
 // create HTML structure
         let wholePostDiv = document.createElement("div");
         let titleHeader = document.createElement("h2");
+        let postDate = document.createElement("span");
         let postText = document.createElement("content");
         let buttonHolder = document.createElement("span");
         let editButton = document.createElement("button");
@@ -33,12 +35,14 @@ function renderArchive(array) {
 // append all HTML elements
         archiveDisplay.appendChild(wholePostDiv);
         wholePostDiv.appendChild(titleHeader);
+        wholePostDiv.appendChild(postDate);
         wholePostDiv.appendChild(postText);
         wholePostDiv.appendChild(buttonHolder);
         buttonHolder.appendChild(editButton);
         buttonHolder.appendChild(deleteButton);
 // add text and metadata to HTML elements
         titleHeader.innerText = array[i].title;
+        postDate.innerText = (new Date(array[i].date)).toLocaleDateString();
         postText.innerText = array[i].content;
         editButton.innerText = "Edit";
         deleteButton.innerText = "Delete";
@@ -73,11 +77,15 @@ function renderArchive(array) {
 
 //listener on submit button
 submitButton.addEventListener("click", function(e){
+// allowing for custom "submission"    
     e.preventDefault();
+// reset error counters before checking for errors
     titleErrorCount = 0;
     contentErrorCount = 0;
+// check if fields are empty/check for errors
     titleValidity();
     contentValidity();
+// if there is any error, alert user
     if (titleErrorCount > 0 || contentErrorCount > 0) {
         alert ("Please enter both values.");
         return;
@@ -85,15 +93,9 @@ submitButton.addEventListener("click", function(e){
 // add inputs to object
     let blogPost = {
         title: validTitle,
-        // date: 
+        date: Date.now(),
         content: validContent,
-        tags: [],
     };
-// check if fields are empty--add more validation here!
-        // if (titleInput.value === "" || contentInput.value === "") {
-        //     alert("Please enter both values.");
-        //     return;
-        // };
 // add object to array
     postArchive.push(blogPost);
 // render the array on screen
@@ -104,9 +106,11 @@ submitButton.addEventListener("click", function(e){
 // re-initialize counters
     titleErrorCount = 0;
     contentErrorCount = 0;
+// store in localStorage
     store();
 });
 
+// check if title has content
 function titleValidity () {
     titleInput.setCustomValidity("");
     if (titleInput.validity.valueMissing) {
@@ -121,6 +125,7 @@ function titleValidity () {
     titleSpan.textContent = titleInput.validationMessage;
 };
 
+// check if content has ...content
 function contentValidity () {
     contentInput.setCustomValidity("");
     if (contentInput.validity.valueMissing) {
@@ -135,6 +140,3 @@ function contentValidity () {
     contentSpan.textContent = contentInput.validationMessage;
 };
 
-// const utcDate = Date.parse(new Date());
-// const dateOffsetMS = ((new Date().getTimezoneOffset()) * 60000);
-// const datePosted = (utcDate - dateOffsetMS);
