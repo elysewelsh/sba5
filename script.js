@@ -52,7 +52,6 @@ function renderArchive(array) {
         deleteButton.addEventListener("click", function(e) {
             const targetedPost = e.target.closest("div");
             const targetedIndex = targetedPost.dataset.identity;
-            console.log(targetedPost);
 // remove value from array
             array.splice(targetedIndex,1);
 // re-render archived posts from edited array
