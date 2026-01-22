@@ -7,9 +7,13 @@ let submitButton = document.getElementById("submitButton");
 let titleSpan = document.getElementById("titleError");
 let contentSpan = document.getElementById("contentError");
 let submitSpan = document.getElementById("submitError");
-let newPost = document.getElementById("postDiv");
+let newPost = document.getElementById("postForm");
 // declare array to store posts in
 let postArchive = [];
+let contentErrorCount = 0;
+let titleErrorCount = 0;
+// let validTitle;
+// let validContent;
 
 // function to store the blog posts in local storage
 function store() {
@@ -69,18 +73,27 @@ function renderArchive() {
 
 //listener on submit button
 submitButton.addEventListener("click", function(e){
+    e.preventDefault();
+    titleErrorCount = 0;
+    contentErrorCount = 0;
+    titleValidity();
+    contentValidity();
+    if (titleErrorCount > 0 || contentErrorCount > 0) {
+        alert ("Please enter both values.");
+        return;
+    };
 // add inputs to object
     let blogPost = {
-        title: titleInput.value,
+        title: validTitle,
         // date: 
-        content: contentInput.value,
+        content: validContent,
         tags: [],
     };
 // check if fields are empty--add more validation here!
-    if (titleInput.value === "" || contentInput.value === "") {
-        alert("Please enter both values.");
-        return;
-    };
+        // if (titleInput.value === "" || contentInput.value === "") {
+        //     alert("Please enter both values.");
+        //     return;
+        // };
 // add object to array
     postArchive.push(blogPost);
 // render the array on screen
@@ -88,9 +101,39 @@ submitButton.addEventListener("click", function(e){
 // clear input fields
     titleInput.value = "";
     contentInput.value = "";
+// re-initialize counters
+    titleErrorCount = 0;
+    contentErrorCount = 0;
 // store();
 });
 
+function titleValidity () {
+    titleInput.setCustomValidity("");
+    if (titleInput.validity.valueMissing) {
+        titleInput.setCustomValidity("Please enter a title.");
+        titleErrorCount++;
+    }
+    else {
+        titleErrorCount = 0;
+        validTitle = titleInput.value;
+        titleSpan.textContent = "";
+    }
+    titleSpan.textContent = titleInput.validationMessage;
+};
+
+function contentValidity () {
+    contentInput.setCustomValidity("");
+    if (contentInput.validity.valueMissing) {
+        contentInput.setCustomValidity("Please enter your thoughts.");
+        contentErrorCount++;
+    } 
+    else {
+        contentErrorCount = 0;
+        validContent = contentInput.value;
+        contentSpan.textContent = "";
+    };
+    contentSpan.textContent = contentInput.validationMessage;
+};
 
 // const utcDate = Date.parse(new Date());
 // const dateOffsetMS = ((new Date().getTimezoneOffset()) * 60000);
