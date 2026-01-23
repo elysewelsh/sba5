@@ -65,6 +65,8 @@ function renderArchive(array) {
         editButton.addEventListener("click",function(e) {
             const targetedPost = e.target.closest("div");
             const targetedIndex = targetedPost.dataset.identity;
+// go to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 // bring values to be edited to input fields
             titleInput.value = array[targetedIndex].title;
             contentInput.value = array[targetedIndex].content;
@@ -92,6 +94,7 @@ submitButton.addEventListener("click", function(e){
         alert ("please enter both values");
         return;
     };
+    alert("post submitted");
 // add inputs to object
     let blogPost = {
         title: validTitle,
