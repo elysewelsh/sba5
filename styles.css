@@ -1,3 +1,4 @@
+/* whole document */
 body {
     min-height: 100vh;
     margin: 0;
@@ -5,53 +6,112 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: grey;
+    background: lightgrey;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* main content */
 main {
     width: 100%;
     max-width: 550px;
     padding: 20px;
 }
+
+/* blog header */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+/* form */
 #postForm {
     background: white;
     padding: 40px;
-    border-radius: 16px;
+    border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08)
 }
 
+/* containers for inputs within form */
 .form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
-textarea{
-    height: 20vh;
-}
 
+/* inputs */
 textarea, input {
     padding: 12px;
     border: 1px solid #DFE6E9;
     border-radius: 6px;
     background: #fdfdfd;
     font-size: 1rem;
+    margin: 10px;
 }
 
+/* your thoughts input */
+textarea{
+    height: 20vh;
+}
+
+/* error messages */
 span {
     color: #d9534f;
     font-size: 0.75rem;
 }
 
-section {
-    width: 100%;
-    margin-top: 30px;
+/* submit button */
+#postForm button {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
+/* past posts header */
+#pastPosts {
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 0;
+    color: darkgrey;
+}
+
+/* container for past post containers */
+#archiveDisplay {
+    margin-top: 6px;
+}
+
+/* past post individual containers */
 #archiveDisplay div {
-    background: ivory;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px;
-    border: solid lightgrey;
+    background: white;
+    padding: 40px;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* past post title */
+h3 {
+    font-size: 2rem;
+    padding: 0;
+    margin: 0;
+
+}
+
+/* posted date */
+h4 {
+    font-size: 1.1rem;
+    padding: 0;
+    margin: 0;
+    font-weight: 100;
+}
+
+/* post text */
+content {
+    margin-top: 10px;
+}
+
+/* container for edit and delete buttons on every past post */
+#archiveDisplay button {
+    margin-right: 10px;
+    margin-top: 10px;
 }

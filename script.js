@@ -3,6 +3,7 @@ let postArchive = JSON.parse(localStorage.getItem('postArchive')) || [];
 let titleInput = document.getElementById("postTitle");
 let contentInput = document.getElementById("postContent");
 let submitButton = document.getElementById("submitButton");
+let pastPosts = document.getElementById("pastPosts");
 // select error spans
 let titleSpan = document.getElementById("titleError");
 let contentSpan = document.getElementById("contentError");
@@ -14,6 +15,7 @@ let titleErrorCount = 0;
 
 // on page load
 renderArchive(postArchive);
+showArchive();
 
 // function to store the blog posts in local storage
 function store() {
@@ -26,8 +28,8 @@ function renderArchive(array) {
     for (let i = 0; i < array.length; i++) {
 // create HTML structure
         let wholePostDiv = document.createElement("div");
-        let titleHeader = document.createElement("h2");
-        let postDate = document.createElement("span");
+        let titleHeader = document.createElement("h3");
+        let postDate = document.createElement("h4");
         let postText = document.createElement("content");
         let buttonHolder = document.createElement("span");
         let editButton = document.createElement("button");
@@ -42,10 +44,10 @@ function renderArchive(array) {
         buttonHolder.appendChild(deleteButton);
 // add text and metadata to HTML elements
         titleHeader.innerText = array[i].title;
-        postDate.innerText = (new Date(array[i].date)).toLocaleDateString();
+        postDate.innerText = "post last edited: "+(new Date(array[i].date)).toLocaleDateString();
         postText.innerText = array[i].content;
-        editButton.innerText = "Edit";
-        deleteButton.innerText = "Delete";
+        editButton.innerText = "edit";
+        deleteButton.innerText = "delete";
 // give div identity
         wholePostDiv.dataset.identity = i;
 // listener on delete button
@@ -55,6 +57,7 @@ function renderArchive(array) {
 // remove value from array
             array.splice(targetedIndex,1);
 // re-render archived posts from edited array
+            showArchive();            
             renderArchive(array);
             store();
         });
@@ -86,7 +89,7 @@ submitButton.addEventListener("click", function(e){
     contentValidity();
 // if there is any error, alert user
     if (titleErrorCount > 0 || contentErrorCount > 0) {
-        alert ("Please enter both values.");
+        alert ("please enter both values");
         return;
     };
 // add inputs to object
@@ -97,6 +100,7 @@ submitButton.addEventListener("click", function(e){
     };
 // add object to array
     postArchive.push(blogPost);
+    showArchive();
 // render the array on screen
     renderArchive(postArchive);
 // clear input fields
@@ -113,7 +117,7 @@ submitButton.addEventListener("click", function(e){
 function titleValidity () {
     titleInput.setCustomValidity("");
     if (titleInput.validity.valueMissing) {
-        titleInput.setCustomValidity("Please enter a title.");
+        titleInput.setCustomValidity("please enter a title");
         titleErrorCount++;
     }
     else {
@@ -128,7 +132,7 @@ function titleValidity () {
 function contentValidity () {
     contentInput.setCustomValidity("");
     if (contentInput.validity.valueMissing) {
-        contentInput.setCustomValidity("Please enter your thoughts.");
+        contentInput.setCustomValidity("please enter your thoughts");
         contentErrorCount++;
     } 
     else {
@@ -139,3 +143,11 @@ function contentValidity () {
     contentSpan.textContent = contentInput.validationMessage;
 };
 
+// check to see if there are any archived posts that necessitate a header
+function showArchive() {
+    if (postArchive.length === 0) {
+        pastPosts.style.display= "none";
+    } else {
+    pastPosts.style.display = "block";
+    }
+}
