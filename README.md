@@ -37,3 +37,7 @@ KNOWN ISSUES AND FEATURES NOT IMPLEMENTED
 I don't think there are any issues. Before completing the README, I added an alert to let the user know the post was submitted because it felt like an odd experience without it. 
 
 I don't love that the page doesn't return to the top of the screen/to the form when you press edit from a past post at the very bottom, but I'm currently researching how to fix that and found window.scrollTo({ top: 0, behavior: 'smooth' });. And I added it, so I think it's pretty much exactly how I want it.
+
+I used getElementById and not querySelector/querySelectorAll. I know how to use them and that the difference between them is that querySelector will return the FIRST instance of the search term, but querySelectorAll will return ALL the instances of the search term. However, I also read (while doing the other discussion questions) that using getElementById is a better practice because it doesn't take up as much compute and it's easier to maintain, so I chose getElementById. 
+
+I reached out to Jade and Quinn to see how big of a deal this is because the rubric says "Efficiently & correctly uses querySelector/querySelectorAll; correctly creates & appends new DOM elements.", but I don't expect to hear back before I submit. I'll accept any penalty, but would like to understand why we're using one over the other.

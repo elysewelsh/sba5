@@ -43,9 +43,9 @@ function renderArchive(array) {
         buttonHolder.appendChild(editButton);
         buttonHolder.appendChild(deleteButton);
 // add text and metadata to HTML elements
-        titleHeader.innerText = array[i].title;
-        postDate.innerText = "post last edited: "+(new Date(array[i].date)).toLocaleDateString();
-        postText.innerText = array[i].content;
+        titleHeader.innerText = `${array[i].title}`;
+        postDate.innerText = `post last edited: ${(new Date(array[i].date)).toLocaleDateString()}`;
+        postText.innerText = `${array[i].content}`;
         editButton.innerText = "edit";
         deleteButton.innerText = "delete";
 // give div identity
